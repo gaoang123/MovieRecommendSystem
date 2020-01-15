@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.kaida</groupId>
+    <artifactId>MovieRecommendSystem</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>recommender</module>
+    </modules>
+    <properties>
+        <log4j.version>1.2.17</log4j.version><!-- log4j 日志系统 -->
+        <!-- SLF4J，即简单日志门面（Simple Logging Facade for Java），不是具体的日志解决方案，它只服务于各种各样的日志系统。
+        按照官方的说法，SLF4J 是一个用于日志系统的简单Facade，允许最终用户在部署其应用时使用其所希望的日志系统。 -->
+        <slf4j.version>1.7.22</slf4j.version>
+        <mongodb-spark.version>2.0.0</mongodb-spark.version>
+        <casbah.version>3.1.1</casbah.version><!-- mongodb 在 scala 上的驱动器 -->
+        <elasticsearch-spark.version>5.6.2</elasticsearch-spark.version>
+        <elasticsearch.version>5.6.2</elasticsearch.version>
+        <redis.version>2.9.0</redis.version>
+        <kafka.version>0.10.2.1</kafka.version>
+        <spark.version>2.1.1</spark.version>
+        <scala.version>2.11.8</scala.version>
+        <jblas.version>1.2.1</jblas.version><!-- Java 中线性代数相关的库 -->
+    </properties>
+    <dependencies>
+        <!-- Logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+        <!-- Logging End -->
+    </dependencies>
+
+    <build>
+        <!-- 声明并引入子项目共有的插件 -->
+        <plugins>
+            <!-- 直接引入插件，所有子模块都会引入 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.6.1</version>
+                <!-- 所有的编译用 JDK1.8 -->
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+
+        <pluginManagement>
+            <!-- 只是声明插件，并不引入，如果子模块需要用的时候再引入即可 -->
+            <plugins>
+                <!-- maven 的打包插件 -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.0.0</version>
+                    <executions>
+                        <execution>
+                            <id>make-assembly</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>single</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- 该插件用于将 scala 代码编译成 class 文件 -->
+                <plugin>
+                    <groupId>net.alchim31.maven</groupId>
+                    <artifactId>scala-maven-plugin</artifactId>
+                    <version>3.2.2</version>
+                    <executions>
+                        <!-- 绑定到 maven 的编译阶段 -->
+                        <execution>
+                            <goals>
+                                <goal>compile</goal>
+                                <goal>testCompile</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
