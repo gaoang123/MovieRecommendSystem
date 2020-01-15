@@ -20,7 +20,7 @@ object ContentRecommender {
       "mongo.uri" -> "mongodb://localhost:27017/recommender",
       "mongo.db" -> "recommender"
     )
-    //创建一个sparkconf
+    //创建一个sparkconf11111
     val sparkConf =new SparkConf().setMaster(config("spark.cores")).setAppName("DataLoader")
     //创建一个SparkSession
     val spark=SparkSession.builder().config(sparkConf).getOrCreate()
